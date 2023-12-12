@@ -2,10 +2,15 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='css' href='/css/style.css' />
+    <script type="module" src="record.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
+    <button id="startPauseBtn">Start Recording</button>
+    <button id="stopBtn" disabled>Stop Recording</button>
+    <br>
+    <audio id="audioPlayer" controls></audio>
     <p>Web Sistemak (2023-2024)</p>
   </body>
   <script type="module" src="/js/main.js"></script>
