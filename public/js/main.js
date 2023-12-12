@@ -1,15 +1,15 @@
-import { recordFn } from "/js/recordButton.js";
-import { stopFn } from "/js/recordButton.js";
-import { uploadFn } from "/js/recordButton.js";
+import { recordFn, stopFn, uploadFn } from "/js/recordButton.js";
 
+window.onload = function () {
+    const liRecordButton = document.getElementById("liRecordButton");
+    liRecordButton.innerHTML = recordFn();
 
-/**const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const liStopButton = document.getElementById("liStopButton");
+    liStopButton.innerHTML = stopFn();
 
-const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-const audioUrl = URL.createObjectURL(audioBlob);
-const audioPlayer = document.getElementById('audioPlayer');
-audioPlayer.src = audioUrl;*/
-
+    const liUploadButton = document.getElementById("liUploadButton");
+    liUploadButton.innerHTML = uploadFn();
+};
 
 class App {
 
@@ -50,5 +50,5 @@ class App {
     }
   }
   
-  const app = new Sortu();
+  const app = new App();
   app.init();
