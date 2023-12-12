@@ -1,4 +1,6 @@
-import { recordFn, stopFn, uploadFn } from "/js/recordButton.js";
+import { recordFn } from "/js/recordButton.js";
+import { stopFn} from "/js/stopButton.js";
+import { uploadFn } from "/js/uploadButton.js";
 
 window.onload = function () {
     const liRecordButton = document.getElementById("liRecordButton");
@@ -20,15 +22,40 @@ class App {
     }
   
     init() {
+       navigator.mediaDevices.getUserMedia({ audio: true })
+       .then((stream) => {
+           this.initAudio();
+           this.initRecord(stream);
+       })
+       .catch((error) => {
+           console.error('Error al obtener permisos para el micrófono:', error);
+       });
     }
   
     initAudio() {
+      this.audio = new Audio();
+
+        this.audio.onloadedmetadata = () => {
+            console.log('onloadedmetadata:', this.audio.duration);
+        };
+
+        this.audio.ondurationchange = () => {
+            console.log('ondurationchange:', this.audio.duration);
+        };
+
+        this.audio.ontimeupdate = () => {
+            console.log('ontimeupdate:', this.audio.currentTime);
+        };
+
+        this.audio.onended = () => {
+            console.log('onended: audioa amaitu da');
+        };
     }
   
     loadBlob() {
     }
   
-    initRecord() {
+    initRecord(stream) {
     }
   
     record() {
