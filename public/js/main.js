@@ -1,17 +1,7 @@
 import { recordFn } from "/js/recordButton.js";
-import { stopFn} from "/js/stopButton.js";
+import { playFn} from "/js/playButton.js";
 import { uploadFn } from "/js/uploadButton.js";
 
-window.onload = function () {
-    const liRecordButton = document.getElementById("liRecordButton");
-    liRecordButton.innerHTML = recordFn();
-
-    const liStopButton = document.getElementById("liStopButton");
-    liStopButton.innerHTML = stopFn();
-
-    const liUploadButton = document.getElementById("liUploadButton");
-    liUploadButton.innerHTML = uploadFn();
-};
 
 class App {
 
@@ -19,8 +9,18 @@ class App {
       this.audio = null;
       this.blob = null;
       this.state = {};
+      this.isRecording = false;
+      this.playingIntervalId = null;
     }
   
+    toggleRecording() {
+        if (this.isRecording) {
+            this.stopRecording();
+        } else {
+            this.record();
+        }
+    }
+
     init() {
        navigator.mediaDevices.getUserMedia({ audio: true })
        .then((stream) => {
@@ -92,24 +92,142 @@ class App {
     };
     }
   
+    setState(state) {
+        this.state = Object.assign({}, this.state, state);
+        this.render();
+    }
+
+    render() {
+        // Handle UI updates based on the current state
+        switch (this.state.status) {
+            case 'playing':
+                this.renderPlayingState();
+                break;
+            // Add other cases for different states as needed
+
+            default:
+                // Default rendering behavior
+                break;
+        }
+    }
+
+    renderPlayingState() {
+        // Update UI for playing state, e.g., show current playback time
+        const formattedTime = this.formatTime(this.audio.currentTime);
+    const remainingTime = this.formatTime(this.audio.duration - this.audio.currentTime);
+    
+    console.log(`Current playback time: ${formattedTime}, Remaining time: ${remainingTime}`);
+    
+    
+    }
+
+    formatTime(time) {
+        // Helper function to format time (e.g., from seconds to MM:SS)
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        return formattedTime;
+    }
+
     record() {
+        // Check if recording is not in progress
+        if (!this.isRecording) {
+            // Clear the existing audio chunks
+            this.audioChunks = [];
+    
+            this.mediaRecorder.start();
+            this.isRecording = true;
+            this.setState({ status: 'recording' });
+        }
     }
-  
+    
+    
     stopRecording() {
+        // Check if recording is in progress
+        if (this.isRecording) {
+            this.mediaRecorder.stop();
+            this.isRecording = false;
+            this.setState({ status: 'recorded' });
+        }
     }
-  
+    
     playAudio() {
+        // Check if audio is available
+        if (this.audio && this.blob) {
+            this.audio.play();
+            this.setState({ status: 'playing' });
+    
+            // Start the interval to update the UI with the remaining time
+            this.playingIntervalId = setInterval(() => {
+                const remainingTime = this.formatTime(this.audio.duration - this.audio.currentTime);
+    
+                // Update the UI as needed, e.g., display remaining time next to the button
+                const liPlayButton = document.getElementById("liPlayButton");
+                liPlayButton.innerHTML = `${playFn()} ${remainingTime}`;
+    
+                // Check if the audio has finished playing
+                if (this.audio.currentTime >= this.audio.duration) {
+                    clearInterval(this.playingIntervalId);
+                    this.setState({ status: 'recorded' });
+                }
+            }, 1000); // Update every second
+        }
     }
-  
+    
+    // Update the stopAudio method
     stopAudio() {
+        // Check if audio is playing
+        if (this.audio && !this.audio.paused) {
+            this.audio.pause();
+            this.audio.currentTime = 0;
+    
+            // Clear the interval when stopping audio
+            clearInterval(this.playingIntervalId);
+    
+            this.setState({ status: 'recorded' });
+        }
     }
-  
+    
     upload() {
+        // Implement upload functionality based on your requirements
+        // For now, log a message to the console
+        console.log('File uploaded.');
+        this.setState({ status: 'uploaded' });
     }
-  
+    
     deleteFile() {
+        // Implement delete functionality based on your requirements
+        // For now, log a message to the console
+        console.log('File deleted.');
+        this.setState({ status: 'deleted' });
     }
   }
   
   const app = new App();
   app.init();
+
+
+  window.onload = function () {
+    const liRecordButton = document.getElementById("liRecordButton");
+    liRecordButton.innerHTML = recordFn(app.isRecording);
+
+    liRecordButton.addEventListener('click', () => {
+        app.toggleRecording();
+        // Update the innerHTML of the Record button based on the recording state
+        liRecordButton.innerHTML = recordFn(app.isRecording);
+    });
+
+    const liPlayButton = document.getElementById("liPlayButton");
+    liPlayButton.innerHTML = playFn();
+
+    liPlayButton.addEventListener('click', () => {
+        app.playAudio();
+    });
+
+    const liUploadButton = document.getElementById("liUploadButton");
+    liUploadButton.innerHTML = uploadFn();
+
+    liUploadButton.addEventListener('click', () => {
+        app.upload();
+    });
+};

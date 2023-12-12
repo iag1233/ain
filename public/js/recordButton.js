@@ -1,9 +1,7 @@
 
-export function recordFn() {
-    return '<button id="startPauseBtn">Start Recording</button>';
-  }
-  
-  
+export function recordFn(isRecording) {
+  return `<button id="recordBtn">${isRecording ? 'Stop Audio' : 'Start Recording'}</button>`;
+}
   
  
   
