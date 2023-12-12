@@ -1,3 +1,8 @@
+import { recordFn } from "/js/recordButton.js";
+import { stopFn } from "/js/recordButton.js";
+import { uploadFn } from "/js/recordButton.js";
+
+
 /**const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
 const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
@@ -7,7 +12,7 @@ audioPlayer.src = audioUrl;*/
 
 
 class App {
-    
+
     constructor() {
       this.audio = null;
       this.blob = null;
