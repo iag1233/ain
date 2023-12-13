@@ -25,3 +25,17 @@ ARIKETAK:
         Audio grabaketa martxan jartzeko.
 
 2.5 -> ariketak.md fitxategian
+
+2.6 -> main.js-ko initrecord programatu dugu. Bertan, stream bat jasota, mediarecorder bat sortzeko
+        (beti ere nabigatzaileak onartzen badu). Ondoren ondataavailable eta onstop programatu ditugu,
+        mediarecorderren funtzio gisan.
+
+2.7 -> audio elementua inizializaturik badago, audio.src-ari parametro gisa jasoriko blobaren url-a 
+        ezarriko diogu.
+
+2.8 -> SetState metodoa enuntziatutik txertatu dugu.
+
+2.9 -> switch-case baten bidez, playing egoeran dagoenean, metodo laguntzaile bati egingo zaio deia.
+        Bertan, kenketa baten bidez, audioaren iraupena-uneko iraupena eginez, atzera kontaketa hasiko da martxan.
+
+2.10 -> Azkenik, record, stopRecording, playAudio eta stopAudio metodoak inplementatu ditugu, funtziona dezan.

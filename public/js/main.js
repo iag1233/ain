@@ -54,40 +54,30 @@ class App {
   
     loadBlob(blob) {
         if (this.audio) {
-            // Set the src attribute of the audio element
             this.audio.src = URL.createObjectURL(blob);
         } else {
-            console.error('Audio element is not initialized.');
+            console.error('Audio elementua ez dago sorturik');
         }
     }
     
   
     initRecord(stream) {
-        // Check if MediaRecorder is supported
     if (typeof MediaRecorder === 'undefined') {
-        console.error('MediaRecorder is not supported on this browser.');
+        console.error('MediaRecorder ez da onartzen');
         return;
     }
-
-    // Create a new MediaRecorder with the provided stream
     this.mediaRecorder = new MediaRecorder(stream);
-
-    // Initialize audioChunks array
     this.audioChunks = [];
 
-    // Handle ondataavailable event
+
     this.mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
             this.audioChunks.push(event.data);
         }
     };
 
-    // Handle onstop event
     this.mediaRecorder.onstop = () => {
-        // Create a Blob from the recorded audio chunks
         this.blob = new Blob(this.audioChunks, { type: 'audio/wav' });
-
-        // Load the Blob using the loadBlob method
         this.loadBlob(this.blob);
     };
     }
@@ -98,31 +88,22 @@ class App {
     }
 
     render() {
-        // Handle UI updates based on the current state
         switch (this.state.status) {
             case 'playing':
                 this.renderPlayingState();
                 break;
-            // Add other cases for different states as needed
-
             default:
-                // Default rendering behavior
                 break;
         }
     }
 
     renderPlayingState() {
-        // Update UI for playing state, e.g., show current playback time
         const formattedTime = this.formatTime(this.audio.currentTime);
-    const remainingTime = this.formatTime(this.audio.duration - this.audio.currentTime);
-    
-    console.log(`Current playback time: ${formattedTime}, Remaining time: ${remainingTime}`);
-    
-    
+        const remainingTime = this.formatTime(this.audio.duration - this.audio.currentTime);
+        console.log(`Current playback time: ${formattedTime}, Remaining time: ${remainingTime}`);
     }
 
     formatTime(time) {
-        // Helper function to format time (e.g., from seconds to MM:SS)
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -130,11 +111,8 @@ class App {
     }
 
     record() {
-        // Check if recording is not in progress
         if (!this.isRecording) {
-            // Clear the existing audio chunks
             this.audioChunks = [];
-    
             this.mediaRecorder.start();
             this.isRecording = true;
             this.setState({ status: 'recording' });
@@ -143,7 +121,6 @@ class App {
     
     
     stopRecording() {
-        // Check if recording is in progress
         if (this.isRecording) {
             this.mediaRecorder.stop();
             this.isRecording = false;
@@ -152,36 +129,25 @@ class App {
     }
     
     playAudio() {
-        // Check if audio is available
         if (this.audio && this.blob) {
             this.audio.play();
             this.setState({ status: 'playing' });
-    
-            // Start the interval to update the UI with the remaining time
             this.playingIntervalId = setInterval(() => {
                 const remainingTime = this.formatTime(this.audio.duration - this.audio.currentTime);
-    
-                // Update the UI as needed, e.g., display remaining time next to the button
                 const liPlayButton = document.getElementById("liPlayButton");
                 liPlayButton.innerHTML = `${playFn()} ${remainingTime}`;
-    
-                // Check if the audio has finished playing
                 if (this.audio.currentTime >= this.audio.duration) {
                     clearInterval(this.playingIntervalId);
                     this.setState({ status: 'recorded' });
                 }
-            }, 1000); // Update every second
+            }, 1000);
         }
     }
     
-    // Update the stopAudio method
     stopAudio() {
-        // Check if audio is playing
         if (this.audio && !this.audio.paused) {
             this.audio.pause();
             this.audio.currentTime = 0;
-    
-            // Clear the interval when stopping audio
             clearInterval(this.playingIntervalId);
     
             this.setState({ status: 'recorded' });
@@ -189,15 +155,11 @@ class App {
     }
     
     upload() {
-        // Implement upload functionality based on your requirements
-        // For now, log a message to the console
         console.log('File uploaded.');
         this.setState({ status: 'uploaded' });
     }
     
     deleteFile() {
-        // Implement delete functionality based on your requirements
-        // For now, log a message to the console
         console.log('File deleted.');
         this.setState({ status: 'deleted' });
     }
