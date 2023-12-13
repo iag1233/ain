@@ -175,7 +175,6 @@ class App {
 
     liRecordButton.addEventListener('click', () => {
         app.toggleRecording();
-        // Update the innerHTML of the Record button based on the recording state
         liRecordButton.innerHTML = recordFn(app.isRecording);
     });
 
