@@ -44,4 +44,32 @@ ARIKETAK:
 
 ARIKETAK:
 
-3.4.1 -> 
+3.4.1 -> navigator-clipboard erabiliaz, portapapelesean kopiatudugu fitxategiaren id-a. Hain zuzen, 
+        bere fileName-a. Horretarako honakoa eginez:
+        navigator.clipboard.writeText(file.filename)
+                    .then(() => {})
+        Horrez gain, papel baten ikonoa sortu dugu eta gertaera kudeatzaile bidez, klik egitean exekutatuko da goiko kodea.
+
+3.4.2 -> Bestalde, beste ikono bat sortu dugu, papelera batena hain zuzen eta honen gainean klik egitean, ezabatzeko kodea
+        ejekutatuko da. Backendean programatuko dugu
+
+3.4.3 -> eu.js eta moment.js gorde ditugu utils karpetan eta ariketetan zehazturiko kodea kopiatu dugu.
+        Bestalde, honako kodea zehaztu dugu:
+
+            const fileDate = new Date(file.date);
+            const relativeDate = moment(fileDate).fromNow();
+            const formattedTime = moment(fileDate).format('HH:mm:ss');
+            const formattedDateTime = `${relativeDate}, ${formattedTime}`;
+            listItem.innerHTML += ` ${formattedDateTime} `;
+
+        Honi esker, oraindik hasita atzerantza kontatuko dugu eta eu.js-ko edukia erabiliz sortuko dugu mezua.
+
+ARIKETAK
+
+4.1 ->utils karpetan, snackbar sortu dugu min.css eta min.js fitxategiak eta internetetik kopiatu dugu bertan izan dezakeen kodea. 
+        Ariketetan agertzen zen kodea kopiatu dugu index.ejs-n eta main-en eta ondoren honakoa ezarri dugu:
+
+        Snackbar.show('Audioaren esteka ongi kopiatu da');
+
+        Honi esker, klik egitean ikonoaren gainean mezu bat agertuko zaigu snackbar.min.css estiloarekin eta snackbar.min.js erabiliz
+        

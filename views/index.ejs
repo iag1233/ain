@@ -1,29 +1,70 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <style>
-      ul {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-      }
+<html lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #liRecordButton,
+    #liPlayButton,
+    #liUploadButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    #liRecordButton,
+    #liPlayButton,
+    #liUploadButton,
+    #fileList {
+      padding: 10px;
+    }
+
+    #fileList {
+      background-color: #f1f1f1;
+    }
+
+    p {
+      text-align: center;
+      color: #7f8c8d;
+    }
   </style>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <div id="liRecordButton"></div>
-    <div id="liPlayButton"></div>
-    <div id="liUploadButton"></div>
-    <br>
-    <ul id="fileList">
-    </ul>
-    <p>Web Sistemak (2023-2024)</p>
-  </body>
+</head>
+<body>
+  <h1><%= title %></h1>
+  <div id="liRecordButton"></div>
+  <div id="liPlayButton"></div>
+  <div id="liUploadButton"></div>
+  <br>
+  <ul id="fileList"></ul>
+  <p>Web Sistemak (2023-2024)</p>
   <script src="/utils/moment/moment.js"></script>
   <script src="/utils/moment/eu.js"></script>
   <script src="/utils/snackbar/snackbar.min.js"></script>
-  <link rel="stylesheet"href="/utils/snackbar/snackbar.min.css" />
+  <link rel="stylesheet" href="/utils/snackbar/snackbar.min.css" />
   <script type="module" src="/js/main.js"></script>
+</body>
 </html>
