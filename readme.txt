@@ -72,4 +72,9 @@ ARIKETAK
         Snackbar.show('Audioaren esteka ongi kopiatu da');
 
         Honi esker, klik egitean ikonoaren gainean mezu bat agertuko zaigu snackbar.min.css estiloarekin eta snackbar.min.js erabiliz
+
+
+
+AIPATU BEHARRA DUGU GURE FRONTENDEAN BADELA GAUZA BAT ONGI EGITEN EZ DIGUNA. HAIN ZUZEN, AUDIOA ERREPRODUZITZEN HASTEAN, LEHEN ALDIAN,
+AUDIOAREN IRAUPENA INFINITY:NaN AGERTZEN ZAIGU. BERRIRO EXEKUTATZEAN ORDEA, IRAUPENA ONGI AGERTZEN DA. 
         
