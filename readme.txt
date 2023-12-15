@@ -1,3 +1,7 @@
+TALDE IZENA: taldea1
+EGILEAK: MIKEL MUGICA ARREGUI, ARETZ GURRUCHAGA AYERTZA, IORITZ ARAMENDI GARMENDIA
+URL-A: https://ahotsOharrak.ioritz.eus
+
 ARIKETAK:
 
 2.1 ->  Honako botoiak gehitu ditugu:
