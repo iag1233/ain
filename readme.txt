@@ -39,3 +39,9 @@ ARIKETAK:
         Bertan, kenketa baten bidez, audioaren iraupena-uneko iraupena eginez, atzera kontaketa hasiko da martxan.
 
 2.10 -> Azkenik, record, stopRecording, playAudio eta stopAudio metodoak inplementatu ditugu, funtziona dezan.
+
+
+
+ARIKETAK:
+
+3.4.1 -> 

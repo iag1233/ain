@@ -1,6 +1,8 @@
 import { recordFn } from "/js/recordButton.js";
 import { playFn} from "/js/playButton.js";
 import { uploadFn } from "/js/uploadButton.js";
+import { v4 as uuidv4 } from '../utils/uuid/v4.js';
+
 
 
 class App {
@@ -190,6 +192,7 @@ class App {
 
 
   window.onload = function () {
+
     const liRecordButton = document.getElementById("liRecordButton");
     liRecordButton.innerHTML = recordFn(app.isRecording);
 
@@ -211,4 +214,44 @@ class App {
     liUploadButton.addEventListener('click', () => {
         app.upload();
     });
+
+    fetch("/api/list")
+        .then((res) => res.json())
+        .then((response) => {
+            const fileList = response.files || [];
+
+            // Supongamos que tienes una función que devuelve el ícono adecuado
+            // según si el archivo fue copiado o grabado. Puedes adaptar esto según tus necesidades.
+            const getIconForFile = (file) => {
+                // Aquí debes definir la lógica para determinar si el archivo fue copiado o grabado.
+                // En este ejemplo, simplemente se asume que todos los archivos son grabados.
+                return "🎤";
+            };
+
+            // Obtener el contenedor donde mostrar la lista de archivos
+            const fileListContainer = document.getElementById("fileList");
+
+            // Limpiar el contenido actual del contenedor
+            fileListContainer.innerHTML = "";
+
+            // Iterar sobre la lista de archivos y agregar cada elemento a la lista en la pantalla
+            fileList.forEach((file) => {
+                const listItem = document.createElement("li");
+
+                // Crear un objeto de fecha a partir del timestamp
+                const fileDate = new Date(file.date);
+
+                // Formatear la fecha como "YYYY-MM-DD HH:mm:ss"
+                const formattedDate = `${fileDate.getFullYear()}-${padNumber(fileDate.getMonth() + 1)}-${padNumber(fileDate.getDate())} ${padNumber(fileDate.getHours())}:${padNumber(fileDate.getMinutes())}:${padNumber(fileDate.getSeconds())}`;
+
+                listItem.textContent = `${getIconForFile(file)} Data: ${formattedDate}`;
+                fileListContainer.appendChild(listItem);
+            });
+        })
+        .catch((error) => {
+            console.error("Error al obtener la lista de archivos:", error);
+        });
+        function padNumber(number) {
+            return number < 10 ? `0${number}` : number;
+        }
 };
