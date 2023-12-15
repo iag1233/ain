@@ -216,41 +216,66 @@ class App {
     });
 
     fetch("/api/list")
-        .then((res) => res.json())
-        .then((response) => {
-            const fileList = response.files || [];
+    .then((res) => res.json())
+    .then((response) => {
+        const fileList = response.files || [];
 
-            // Supongamos que tienes una función que devuelve el ícono adecuado
-            // según si el archivo fue copiado o grabado. Puedes adaptar esto según tus necesidades.
-            const getIconForFile = (file) => {
-                // Aquí debes definir la lógica para determinar si el archivo fue copiado o grabado.
-                // En este ejemplo, simplemente se asume que todos los archivos son grabados.
-                return "🎤";
-            };
+        const getIconForFile = (file) => {
+            return "";
+        };
 
-            // Obtener el contenedor donde mostrar la lista de archivos
-            const fileListContainer = document.getElementById("fileList");
+        const fileListContainer = document.getElementById("fileList");
 
-            // Limpiar el contenido actual del contenedor
-            fileListContainer.innerHTML = "";
+        fileListContainer.innerHTML = "";
 
-            // Iterar sobre la lista de archivos y agregar cada elemento a la lista en la pantalla
-            fileList.forEach((file) => {
-                const listItem = document.createElement("li");
-
-                // Crear un objeto de fecha a partir del timestamp
-                const fileDate = new Date(file.date);
-
-                // Formatear la fecha como "YYYY-MM-DD HH:mm:ss"
-                const formattedDate = `${fileDate.getFullYear()}-${padNumber(fileDate.getMonth() + 1)}-${padNumber(fileDate.getDate())} ${padNumber(fileDate.getHours())}:${padNumber(fileDate.getMinutes())}:${padNumber(fileDate.getSeconds())}`;
-
-                listItem.textContent = `${getIconForFile(file)} Data: ${formattedDate}`;
-                fileListContainer.appendChild(listItem);
+        fileList.forEach((file) => {
+            const listItem = document.createElement("li");
+            
+            
+            const trashIcon = document.createElement("span");
+            trashIcon.textContent = "🗑️";  
+            trashIcon.style.cursor = "pointer";
+            trashIcon.style.marginRight = "0.5em";
+            trashIcon.addEventListener("click", () => {
+                deleteFile(file.uuid, file.filename);
             });
-        })
-        .catch((error) => {
-            console.error("Error al obtener la lista de archivos:", error);
+            listItem.appendChild(trashIcon);
+
+            moment.locale('eu');
+            
+            const fileDate = new Date(file.date);
+            const relativeDate = moment(fileDate).fromNow();
+            const formattedTime = moment(fileDate).format('HH:mm:ss');
+            const formattedDateTime = `${relativeDate}, ${formattedTime}`;
+            listItem.innerHTML += ` ${formattedDateTime} `;
+
+
+            const copyIconId = `copyIcon-${file.filename}`;
+            const copyIcon = document.createElement("span");
+            copyIcon.textContent = "📋";
+            copyIcon.style.cursor = "pointer";
+            copyIcon.style.marginRight = "0.5em";
+            copyIcon.setAttribute("data-filename", file.filename);
+            copyIcon.setAttribute("id", copyIconId);
+            copyIcon.addEventListener("click", () => {
+                console.log("Clic en el icono de copiar");
+                navigator.clipboard.writeText(file.filename)
+                    .then(() => {
+                        console.log("Filename copiado al portapapeles");
+                    })
+                    .catch((error) => {
+                        console.error("Error al copiar el filename al portapapeles:", error);
+                    });
+            });
+            listItem.appendChild(copyIcon);
+
+            fileListContainer.appendChild(listItem);
         });
+        
+    })
+    .catch((error) => {
+        console.error("Error al obtener la lista de archivos:", error);
+    });
         function padNumber(number) {
             return number < 10 ? `0${number}` : number;
         }
