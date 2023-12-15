@@ -11,6 +11,9 @@ class App {
       this.state = {};
       this.isRecording = false;
       this.playingIntervalId = null;
+      if (!localStorage.getItem("uuid")) // localStoragen gordeta EZ badugu
+            localStorage.setItem("uuid", uuidv4()); // uuid-a sortu eta gorde
+      this.uuid = localStorage.getItem("uuid"); // localStoragetik uuida lortu
     }
   
     toggleRecording() {
@@ -155,8 +158,25 @@ class App {
     }
     
     upload() {
-        console.log('File uploaded.');
-        this.setState({ status: 'uploaded' });
+        this.setState({ uploading: true }); // uneko egoera: uploading
+        const body = new FormData();
+        body.append("recording", this.blob); 
+        fetch("/api/upload/" + this.uuid, {
+            method: "POST", // audioa igotzeko POST metodoa erabiliko dugu
+            body,
+        })
+            .then((res) => res.json()) 
+            .then((json) => {
+                this.setState({
+                    files: json.files, // erabiltzailearen fitxategi guztiak
+                    uploading: false, // uneko egoera eguneratu
+                    uploaded: true, // uneko egoera eguneratu
+                });
+            })
+            .catch((err) => {
+                this.setState({ error: true });
+            });
+
     }
     
     deleteFile() {
