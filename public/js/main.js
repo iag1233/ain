@@ -219,15 +219,8 @@ class App {
     .then((res) => res.json())
     .then((response) => {
         const fileList = response.files || [];
-
-        const getIconForFile = (file) => {
-            return "";
-        };
-
         const fileListContainer = document.getElementById("fileList");
-
         fileListContainer.innerHTML = "";
-
         fileList.forEach((file) => {
             const listItem = document.createElement("li");
             
@@ -255,16 +248,15 @@ class App {
             copyIcon.textContent = "📋";
             copyIcon.style.cursor = "pointer";
             copyIcon.style.marginRight = "0.5em";
-            copyIcon.setAttribute("data-filename", file.filename);
+            copyIcon.setAttribute("filename", file.filename);
             copyIcon.setAttribute("id", copyIconId);
             copyIcon.addEventListener("click", () => {
-                console.log("Clic en el icono de copiar");
                 navigator.clipboard.writeText(file.filename)
                     .then(() => {
-                        console.log("Filename copiado al portapapeles");
+                        Snackbar.show('Audioaren esteka ongi kopiatu da');
                     })
                     .catch((error) => {
-                        console.error("Error al copiar el filename al portapapeles:", error);
+                        Snackbar.show('Errorea gertatu da esteka kopiatzean');
                     });
             });
             listItem.appendChild(copyIcon);
@@ -274,9 +266,7 @@ class App {
         
     })
     .catch((error) => {
-        console.error("Error al obtener la lista de archivos:", error);
+        console.error("Fitxategiak lortzean errorea gertatu da:", error);
     });
-        function padNumber(number) {
-            return number < 10 ? `0${number}` : number;
-        }
+    
 };
