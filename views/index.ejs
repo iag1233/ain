@@ -4,67 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/utils/snackbar/snackbar.min.css" />
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      background-color: #2c3e50;
-      color: #ecf0f1;
-    }
+    font-family: Arial, sans-serif;
+    background-color: #ffcccc;
+}
 
-    h1 {
-      background-color: #2980b9;
-      color: #fff;
-      padding: 1em;
-      text-align: center;
-      margin: 0;
-    }
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    margin-top: 200px;
+}
 
-    #liRecordButton,
-    #liPlayButton,
-    #liUploadButton {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1em;
-      margin-bottom: 1em;
-      background-color: #34495e;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+#content {
+    margin-top: 20px;
+    text-align: center;
+}
 
-    #fileList {
-      list-style: none;
-      padding: 1em;
-      background-color: #34495e;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    #fileList li {
-      margin-bottom: 0.5em;
-    }
-
-    p {
-      text-align: center;
-      color: #7f8c8d;
-      margin-top: 1em;
-    }
+#content img {
+    width: 300px;
+    height: auto;
+}
   </style>
 </head>
 <body>
-  <h1><%= title %></h1>
-  <div id="liRecordButton"></div>
-  <div id="liPlayButton"></div>
-  <div id="liUploadButton"></div>
-  <br>
-  <ul id="fileList"></ul>
-  <p>Web Sistemak (2023-2024)</p>
-  <script src="/utils/moment/moment.js"></script>
-  <script src="/utils/moment/eu.js"></script>
-  <script src="/utils/snackbar/snackbar.min.js"></script>
-  <script type="module" src="/js/main.js"></script>
+  <div class="container">
+    <h1>Kartita nere beibentzat <3</h1>
+    <form id="passwordForm">
+        <br>
+        <br>
+        <br>
+        <label for="password">Karti ikusteko kontraseñi asmaber:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Ikusi</button>
+        <br>
+        <br>
+        <br>
+        <button id="pista">PISTA</button>
+        <br>
+        <p id="hiddenText" style="display: none;">Izen bat da</p>
+        
+    </form>
+    <div id="content" style="display: none;">
+        <img src="./AMOR-TIPOS.jpg" alt="Heart" width="600" height="600">
+        <p>Api, bueno eztakit ze idatzi egiye esan, sentitzeten dana bakizu. Egiye da askotan eztizutela esaten edo erakusten zemat mattezaituten ta inportadiazun baño hala da. Ta eztizut exajeratzen esatetenin, oñ zurekin eongo ezbanitzen eztakitela ze izengozan de mi. Zure haserriek, kapritxuek, hasieran ezetz esan eta gero baietz esatetenin ertetzezaxkizun parriek... benetan ke me enkantan. Eta orokorrien zuk. Esan deten bezela eztakit ze idatzi, ezta nere fuertie, asike bukaukoet esaten bene-benetan nere nahi bakarra dala hemendik 4-5 urteta batea bizitzea jutie, umetxo bat (eo bi) eta txakurtxo bat eukitzi. Aste hau bezelako oporrak botatzie, astebukaratan peliyek jarri ta eze ez itie... ta hau dana zurekin itie.
+            Asko asko maite zaitut, 
+            Ioritz</p>
+            <br>
+            <br>
+            <p> PD: aproetxau pagini deskargatzeko nahibazu prk 2-3 miñututan internetetik kendukoet jiji</p>
+    </div>
+</div>
+<script>
+
+let pista = document.getElementById("pista");
+        let hiddenText = document.getElementById("hiddenText");
+        
+        pista.addEventListener("click", function() {
+            hiddenText.style.display = "block";
+        });
+  document.getElementById("passwordForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var password = document.getElementById("password").value;
+    if (password === "amira") {
+        document.getElementById("passwordForm").style.display = "none";
+        document.getElementById("content").style.display = "block";
+    } else {
+        alert("Eztezu asmau, intentau berriz :)");
+    }
+});
+
+</script>
 </body>
 </html>
